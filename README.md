@@ -1,3 +1,3 @@
 Projekt TIM-a 5 iz predmeta RNWA 
-RAČUNI
+"RAČUNI"
 Fsr2017
