@@ -1,0 +1,283 @@
+--
+-- Database: `maloprodaja`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `artikli`
+--
+
+CREATE TABLE `artikli` (
+  `ArtiklID` int(11) NOT NULL,
+  `Sifra` varchar(10) NOT NULL,
+  `Naziv` varchar(50) NOT NULL,
+  `KategorijaID` int(11) NOT NULL,
+  `JedinicaMjereID` int(11) NOT NULL,
+  `StanjeZaliha` double NOT NULL DEFAULT '0',
+  `Cijena` decimal(19,4) NOT NULL DEFAULT '0.0000',
+  `SSMA_TimeStamp` binary(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `artikli`
+--
+
+INSERT INTO `artikli` (`ArtiklID`, `Sifra`, `Naziv`, `KategorijaID`, `JedinicaMjereID`, `StanjeZaliha`, `Cijena`, `SSMA_TimeStamp`) VALUES
+(1, '11AA', 'Meggle 0,8%', 1, 2, 50, '1.2000', 0x00000000000007d1),
+(2, '22BB', 'Sir masni 4,8%', 1, 1, 20, '5.3000', 0x00000000000007d2),
+(3, '33CC', 'Ulje Floriol', 2, 2, 60, '1.8000', 0x00000000000007d3),
+(4, '44DD', 'Brasno Mlin Majic', 2, 1, 200, '3.0000', 0x00000000000007d4),
+(5, '5555', 'Sir posni 1,2%', 1, 3, 65, '5.2000', 0x00000000000007d5),
+(6, '6666', 'Ananas', 2, 1, 50, '7.8500', 0x0000000000000000),
+(7, '7777', 'Antilopa', 1, 3, 500, '10000.0000', 0x0000000000000000),
+(8, '8888', 'Argeta 59g Tuna', 2, 3, 500, '1.4500', 0x0000000000000000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jedinicemjere`
+--
+
+CREATE TABLE `jedinicemjere` (
+  `JedinicaMjereID` int(11) NOT NULL,
+  `Naziv` varchar(20) DEFAULT NULL,
+  `Oznaka` varchar(5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jedinicemjere`
+--
+
+INSERT INTO `jedinicemjere` (`JedinicaMjereID`, `Naziv`, `Oznaka`) VALUES
+(1, 'Kilogram', 'KG'),
+(2, 'Litra', 'L'),
+(3, 'Komad', 'KOM'),
+(4, 'Metar', 'M'),
+(5, 'Centimetar', 'CM');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kategorije`
+--
+
+CREATE TABLE `kategorije` (
+  `KategorijaID` int(11) NOT NULL,
+  `Naziv` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `kategorije`
+--
+
+INSERT INTO `kategorije` (`KategorijaID`, `Naziv`) VALUES
+(1, 'Mlijecni proizvodi'),
+(2, 'Prehrana'),
+(3, 'Higijena');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `poslovnica`
+--
+
+CREATE TABLE `poslovnica` (
+  `Sifra` int(11) NOT NULL,
+  `Naziv` varchar(255) DEFAULT NULL,
+  `Adresa` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `poslovnica`
+--
+
+INSERT INTO `poslovnica` (`Sifra`, `Naziv`, `Adresa`) VALUES
+(1, 'Mostar1', 'Ulica Stjepana Radica 52 a'),
+(2, 'Mostar2', 'Ulica kraljice Katarine 12 c');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `racuni`
+--
+
+CREATE TABLE `racuni` (
+  `BrojRacuna` int(11) NOT NULL,
+  `DatumIzdavanja` datetime DEFAULT NULL,
+  `Napomena` longtext,
+  `VrstaPlacanja` int(11) DEFAULT NULL,
+  `Poslovnica` int(11) DEFAULT NULL,
+  `SSMA_TimeStamp` binary(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `racuni`
+--
+
+INSERT INTO `racuni` (`BrojRacuna`, `DatumIzdavanja`, `Napomena`, `VrstaPlacanja`, `Poslovnica`, `SSMA_TimeStamp`) VALUES
+(123, '2017-04-26 10:18:22', 'kukac kupio 2 antilope', 1, NULL, 0x0000000000000000),
+(123124561, '2017-04-12 00:00:00', 'tralalalalala', 1, 1, 0x0000000000000000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `racunistavke`
+--
+
+CREATE TABLE `racunistavke` (
+  `BrojRacunaa` int(11) NOT NULL,
+  `Artiklidd` int(11) NOT NULL,
+  `Kolicina` double DEFAULT '0',
+  `Popust` double DEFAULT '0',
+  `SSMA_TimeStamp` binary(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `racunistavke`
+--
+
+INSERT INTO `racunistavke` (`BrojRacunaa`, `Artiklidd`, `Kolicina`, `Popust`, `SSMA_TimeStamp`) VALUES
+(123, 1, 10, 0.5, 0x0000000000000000),
+(123, 7, 2, 0, 0x0000000000000000),
+(123124561, 1, 2, 0.2, 0x00000000000007d9);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vrstaplacanja`
+--
+
+CREATE TABLE `vrstaplacanja` (
+  `VrstaID` int(11) NOT NULL,
+  `Naziv` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `vrstaplacanja`
+--
+
+INSERT INTO `vrstaplacanja` (`VrstaID`, `Naziv`) VALUES
+(1, 'Gotovina'),
+(2, 'Transakcijsko placanje'),
+(4, 'Kreditno placanje');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `artikli`
+--
+ALTER TABLE `artikli`
+  ADD PRIMARY KEY (`ArtiklID`),
+  ADD KEY `Artikli$ArtiklID` (`ArtiklID`),
+  ADD KEY `Artikli$JediniceMjereArtikli` (`JedinicaMjereID`),
+  ADD KEY `Artikli$KategorijeArtikli` (`KategorijaID`);
+
+--
+-- Indexes for table `jedinicemjere`
+--
+ALTER TABLE `jedinicemjere`
+  ADD PRIMARY KEY (`JedinicaMjereID`),
+  ADD KEY `JediniceMjere$JedinicaMjereID` (`JedinicaMjereID`);
+
+--
+-- Indexes for table `kategorije`
+--
+ALTER TABLE `kategorije`
+  ADD PRIMARY KEY (`KategorijaID`),
+  ADD KEY `Kategorije$KategorijaID` (`KategorijaID`);
+
+--
+-- Indexes for table `poslovnica`
+--
+ALTER TABLE `poslovnica`
+  ADD PRIMARY KEY (`Sifra`);
+
+--
+-- Indexes for table `racuni`
+--
+ALTER TABLE `racuni`
+  ADD PRIMARY KEY (`BrojRacuna`),
+  ADD KEY `Racuni$PoslovnicaRacuni` (`Poslovnica`),
+  ADD KEY `Racuni$VrstaPlacanjaRacuni` (`VrstaPlacanja`);
+
+--
+-- Indexes for table `racunistavke`
+--
+ALTER TABLE `racunistavke`
+  ADD PRIMARY KEY (`BrojRacunaa`,`Artiklidd`),
+  ADD KEY `RacuniStavke$ArtiklID` (`Artiklidd`),
+  ADD KEY `RacuniStavke$ArtikliRacuniStavke` (`Artiklidd`),
+  ADD KEY `RacuniStavke$RacunID` (`BrojRacunaa`),
+  ADD KEY `RacuniStavke$RacuniRacuniStavke` (`BrojRacunaa`);
+
+--
+-- Indexes for table `vrstaplacanja`
+--
+ALTER TABLE `vrstaplacanja`
+  ADD PRIMARY KEY (`VrstaID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `artikli`
+--
+ALTER TABLE `artikli`
+  MODIFY `ArtiklID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `jedinicemjere`
+--
+ALTER TABLE `jedinicemjere`
+  MODIFY `JedinicaMjereID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `kategorije`
+--
+ALTER TABLE `kategorije`
+  MODIFY `KategorijaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `poslovnica`
+--
+ALTER TABLE `poslovnica`
+  MODIFY `Sifra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `racuni`
+--
+ALTER TABLE `racuni`
+  MODIFY `BrojRacuna` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123124562;
+--
+-- AUTO_INCREMENT for table `vrstaplacanja`
+--
+ALTER TABLE `vrstaplacanja`
+  MODIFY `VrstaID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `artikli`
+--
+ALTER TABLE `artikli`
+  ADD CONSTRAINT `Artikli$JediniceMjereArtikli` FOREIGN KEY (`JedinicaMjereID`) REFERENCES `jedinicemjere` (`JedinicaMjereID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `Artikli$KategorijeArtikli` FOREIGN KEY (`KategorijaID`) REFERENCES `kategorije` (`KategorijaID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `racuni`
+--
+ALTER TABLE `racuni`
+  ADD CONSTRAINT `Racuni$PoslovnicaRacuni` FOREIGN KEY (`Poslovnica`) REFERENCES `poslovnica` (`Sifra`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `Racuni$VrstaPlacanjaRacuni` FOREIGN KEY (`VrstaPlacanja`) REFERENCES `vrstaplacanja` (`VrstaID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `racunistavke`
+--
+ALTER TABLE `racunistavke`
+  ADD CONSTRAINT `RacuniStavke$ArtikliRacuniStavke` FOREIGN KEY (`Artiklidd`) REFERENCES `artikli` (`ArtiklID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `RacuniStavke$RacuniRacuniStavke` FOREIGN KEY (`BrojRacunaa`) REFERENCES `racuni` (`BrojRacuna`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

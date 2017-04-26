@@ -19,8 +19,86 @@ h5,
 h6 {
     font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: 700;
+	.submenu a {
+  background-color: #999;
 }
 
+/* hover behaviour for links inside .submenu */
+.submenu a:hover {
+  background-color: #666;
+}
+
+/* this is the initial state of all submenus.
+  we set it to max-height: 0, and hide the overflowed content.
+*/
+.submenu {
+  overflow: hidden;
+  max-height: 0;
+  -webkit-transition: all 0.5s ease-out;
+}
+}
+.containers {
+    overflow: hidden;
+    font-family: Arial;
+}
+
+.containers a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    font-family:"Lato";
+	font-size:14px;
+}
+
+.dropdowns {
+    float: left;
+    overflow: hidden;
+}
+
+.dropdowns .dropbtns {
+    font-size: 14px;    
+    border: none;
+    outline: none;
+    color: gray;
+    padding: 15px 16px;
+    background-color: inherit;
+	font-family:"Lato";
+}
+
+.containers a:hover, .dropdowns:hover .dropbtns {
+	color:black;
+	
+    
+}
+
+.dropdowns-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdowns-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+	font-size:14px;
+}
+
+.dropdowns-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdowns:hover .dropdowns-content {
+    display: block;
+}
 .topnav {
     font-size: 14px; 
 }

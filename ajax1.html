@@ -1,0 +1,44 @@
+<html>
+<meta charset="UTF-8">
+<head>
+<style>
+table, td, th {
+    border: 1px solid black;
+}
+
+table {
+    border-collapse: collapse;
+    width: 60%;
+}
+
+th {
+    height: 50px;
+}
+</style>
+<script>
+function showHint(str) {
+    if (str.length == 0) { 
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+    } else {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("txtHint").innerHTML = xmlhttp.responseText;
+            }
+        }
+        xmlhttp.open("GET", "ajax1.php?s=" + str, true);
+        xmlhttp.send();
+    }
+}
+</script>
+</head>
+<body>
+
+<p><b>Krenite upisivati naziv proizvoda da bi dohvatili račune s tim proizvodima:</b></p>
+<form> 
+Naziv: <input type="text" onkeyup="showHint(this.value)">
+</form>
+<p>Računi:<br> <span id="txtHint" style="color:red"></span></p>
+</body>
+</html>
