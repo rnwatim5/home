@@ -41,13 +41,21 @@ else {
 	
 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script type="text/javascript">
-        
-        $(document).ready(function(){
-        $('.form-control').keyup(function(){$("#txtHint").load("trazilica.php?s=" + $(this).val());
-    });
-        
-});
-
+        function showHint(str) {
+    if (str.length == 0) { 
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+    } else {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("txtHint").innerHTML = xmlhttp.responseText;
+            }
+        }
+        xmlhttp.open("GET", "trazilica.php?s=" + str, true);
+        xmlhttp.send();
+    }
+}
     </script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -90,7 +98,7 @@ else {
       <a href="#">Funkcionalnost 1 </a>
 		<ul class="submenu">
   <li><a class="active" href="ajax1.php" target="_blank">Ajax</a></li>
-  <li><a class="active" href="ajax2.php" target="_blank">JQery</a></li>
+   <li><a class="active" href="ajax2.php" target="_blank">JQuery</a></li>
 		</ul>
       <a href="#">Funkcionalnost 2</a>
       <a href="#">Funkcionalnost 3</a>
@@ -148,7 +156,7 @@ if(!isset($_COOKIE['uname']))
 
         <div class="row">	
 	 <div class="col-md-3">
-                <input type="text" class="form-control" placeholder="Tražilica AJAX:" name="trazilica">
+                <input type="text" class="form-control" placeholder="Tražilica JQ:" name="trazilica" onkeyup="showHint(this.value)">
 
             </div>
 	

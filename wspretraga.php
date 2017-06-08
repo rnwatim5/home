@@ -34,22 +34,14 @@ else {
 
     <!-- Custom CSS -->
     <link href="css/landing-page.css" rel="stylesheet">
+	<link href="css/crni-inpute.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 	
 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <script type="text/javascript">
-        
-        $(document).ready(function(){
-        $('.form-control').keyup(function(){$("#txtHint").load("trazilica.php?s=" + $(this).val());
-    });
-        
-});
-
-    </script>
-
+		
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -148,7 +140,6 @@ if(!isset($_COOKIE['uname']))
 
         <div class="row">	
 	 <div class="col-md-3">
-                <input type="text" class="form-control" placeholder="Tražilica AJAX:" name="trazilica">
 
             </div>
 	
@@ -167,10 +158,63 @@ if(!isset($_COOKIE['uname']))
 
                 <div class="row"> <!--prvi div za prikaz nekretnina-->
                 <div id="txtHint"></div>
-               
+               <br />
+			    <br />
+			   
                     <?php
               
-       
+       if (isset($_REQUEST["naziv_tvrtke"])){
+					$naziv_tvrtke=$_REQUEST["naziv_tvrtke"];
+					$params=$naziv_tvrtke;
+					echo "Ispis  Artikla:  ".$naziv_tvrtke.""; 
+					try{
+						ini_set('soap.wsdl_cache_enabled',0);
+						ini_set('soap.wsdl_cache_ttl',0);
+					  //$sClient = new SoapClient('http://localhost/djelatnici1/hello.xml,);
+					  $sClient = new SoapClient('ispis.wsdl',
+					  array(
+					  'cache_wsdl'=>WSDL_CACHE_NONE,
+					  'trace'=>1,
+					  'user' => 'root',
+					  'pass' => '',
+					  'exceptions' => 0
+					));
+					  //$sClient = new SoapClient('hello.wsdl');
+					  
+					  //$params = "Aqila";
+					  //echo "<br>REQUEST:\n" . $sClient->__getLastRequest() . "\n";
+					  //echo "<pre>";
+					  $response = $sClient->doHello($params);
+						//echo "<br>REQUEST:<br>";
+						//echo "<textarea cols=\"60\" rows=\"20\">". htmlspecialchars($sClient->__getLastRequest())."</textarea>";
+						
+					  
+					  //var_dump($response);
+					  //print_r($response);
+					  echo "<br><br><br>ODGOVOR:<br>";
+					  //echo "<textarea cols=\"30\" rows=\"40\">". htmlspecialchars($sClient->__getLastResponse())."</textarea>";
+
+						
+					  $risponz = $sClient->__getLastResponse();
+					 
+					  
+					  echo '<pre>' . $risponz . '</pre>';
+					  
+
+
+					} catch(SoapFault $e){
+						echo $e->getMessage();
+					}
+				}
+				
+				else {
+
+					echo "Napravi  pretragu artikla po nazivu, unijeti naziv artikla u polje ispod<br>  ";
+					echo "<p>Forma poziva web servis koji pretražuje artikle s nazivom koji ste unijeli - vraca JSON odgovor u ovom slucaju</p> ";
+					echo "<form method=\"get\" action=\"".htmlspecialchars($_SERVER["PHP_SELF"])."\">";
+					echo "Naziv artikla: <input type=\"text\" name=\"naziv_tvrtke\">";
+					echo " <input type=\"submit\" name=\"submit\" value=\"Pretraga\"> ";
+				echo "</form>";}
                 
                 ?>
                
